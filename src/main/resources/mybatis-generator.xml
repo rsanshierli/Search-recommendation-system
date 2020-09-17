@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <context id="DB2Tables"    targetRuntime="MyBatis3">
+        <!--数据库链接地址账号密码-->
+        <!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/dianping"
+                        userId="root"
+                        password="root">
+        </jdbcConnection>
+
+        <!--指定javaBean生成的位置，即生成DataObject类存放位置
+            targetPackage：生成的类要放的包，真实的包受enableSubPackages属性控制；
+            targetProject：目标项目，指定一个存在的目录下，生成的内容会放到指定目录中，如果目录不存在，MBG不会自动建目录
+         -->
+        <!--搜索推荐系统主要是搜索推荐业务，所以暂时设定整个的业务系统使用单一的Model模型，这个model
+            涵盖与数据库交互的DataObject model，
+            涵盖自身的业务处理，也就是被service层引用的一个model，
+            涵盖最终返回给前端对象的model，
+            使用一层model代替传统意义上的三层model的架构。
+        -->
+        <javaModelGenerator targetPackage="com.javaproject.dianping.model" targetProject="src/main/java">
+            <!-- 在targetPackage的基础上，根据数据库的schema再生成一层package，
+                 最终生成的类放在这个package下，默认为false；如果多个数据库改为true分目录
+            -->
+            <property name="enableSubPackages" value="true"/>
+            <!-- 设置是否在getter方法中，对String类型字段调用trim()方法 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!--生成mapper映射文件存放位置-->
+        <sqlMapGenerator targetPackage="mapping" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!--生成Dao类存放位置-->
+        <!--客户端代码，生成易于使用的针对Model对象和XML配置文件 的代码
+                type="ANNOTATEDMAPPER",生成Java Model 和基于注解的Mapper对象
+                type="MIXEDMAPPER",生成基于注解的Java Model 和相应的Mapper对象
+                type="XMLMAPPER",生成SQLMap XML文件和独立的Mapper接口
+        -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.javaproject.dianping.dal" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!--生成对应表及类名-->
+        <!--
+        <table tableName="user_info"  domainObjectName="UserDO" enableCountByExample="false"
+        enableUpdateByExample="false" enableDeleteByExample="false"
+        enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="user_password"  domainObjectName="UserPasswordDO" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        -->
+        <table tableName="shop"  domainObjectName="ShopModel" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+
+    </context>
+</generatorConfiguration>
